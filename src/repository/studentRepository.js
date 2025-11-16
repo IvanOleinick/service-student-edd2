@@ -34,14 +34,17 @@ export const addScore = async (id, exam, score) => {
     )
 }
 
-export const findByName = (name) => {
-    // TODO find by name
+export const findByName = async (name) => {
+    return await collection.find({name: {$regex: `^${name}$`, $options: 'i'}}).toArray();
 }
 
-export const countByNames = (names) => {
-    // TODO count by names
+export const countByNames = async (names) => {
+    const regexConditions = names.map(name => ({
+        name: {$regex: `^${name}$`, $options: 'i'}
+    }));
+    return await collection.countDocuments({$or: regexConditions});
 }
 
-export const findByMinScore = (exam, minScore) => {
-    // TODO find by min score
+export const findByMinScore = async (exam, minScore) => {
+    return await collection.find({[`scores.${exam}`]: {$gte: minScore}}).toArray();
 }

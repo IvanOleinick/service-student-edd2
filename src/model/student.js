@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
-        _id: {type: Number, required: true},
+        _id : {type: Number, required: true} ,
         name: {type: String, required: true},
         password: {type: String, required: true},
         scores: {
@@ -10,6 +10,8 @@ const studentSchema = new mongoose.Schema({
             of: Number,
             default: {}
         }
+    },{
+    versionKey: false,
     }
 )
 

@@ -13,7 +13,7 @@ export function deleteStudentById(id) {
 }
 
 export function updateStudent(id, data) {
-    return Student.findByIdAndUpdate(id, data);
+    return Student.findByIdAndUpdate(id, data,{new:true});
 }
 
 export function updateStudentScores(id, exam, score) {
@@ -22,6 +22,9 @@ export function updateStudentScores(id, exam, score) {
 
 export function findStudentByName(name) {
     return Student.find({name: new RegExp(`^${name}$`, `i`)})
+        .select('-password -__v')
+        .lean()
+        .exec();
 }
 
 export function countStudentsByName(names) {
@@ -30,5 +33,8 @@ export function countStudentsByName(names) {
 }
 
 export function findStudentsByMinScore(exam, minScore) {
-    return Student.find({[`scores.${exam}`]: {$gte: minScore}});
+    return Student.find({[`scores.${exam}`]: {$gte: minScore}})
+        .select('-password -__v')
+        .lean()
+        .exec();;
 }
